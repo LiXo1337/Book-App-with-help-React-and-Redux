@@ -12,3 +12,9 @@ export const deleteBook = (id) => {
     payload: id,
   };
 };
+export const chengeFavorite = (id) => {
+  return {
+    type: actionTypes.TOGGLE_FAVORITE,
+    payload: id,
+  };
+};
