@@ -30,7 +30,7 @@ const BookForm = () => {
 
   return (
     <div className="app-block book-form">
-      <h2>App new book</h2>
+      <h2>Add new book</h2>
       <form onSubmit={handleSubmit}>
         <div>
           <label htmlFor="title">Title:</label>
