@@ -6,13 +6,15 @@ import "./BookList.css";
 import {
   selectTitleFilter,
   selectAuthorFilter,
+  selectOnlyFavoriteFilter,
 } from "../../redux/slices/filterSlice";
 
 const BookList = () => {
   const dispatch = useDispatch();
   const books = useSelector((state) => state.books);
-  const titleFilter = useSelector(selectTitleFilter);
-  const authorFilter = useSelector(selectAuthorFilter);
+  const titleFilter = useSelector(selectTitleFilter),
+    authorFilter = useSelector(selectAuthorFilter),
+    onlyFavoriteFilter = useSelector(selectOnlyFavoriteFilter);
 
   const handleChangeFavorite = (id) => {
     return dispatch(chengeFavorite(id));
@@ -31,7 +33,9 @@ const BookList = () => {
       .toLowerCase()
       .includes(authorFilter.toLowerCase());
 
-    return matchesTitle && matchesAuthor;
+    const matchesFavorite = onlyFavoriteFilter ? book.isFavorite : true;
+
+    return matchesTitle && matchesAuthor && matchesFavorite;
   });
 
   return (
