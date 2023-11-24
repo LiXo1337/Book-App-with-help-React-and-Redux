@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { chengeFavorite, deleteBook } from "../../redux/books/actionCreators";
+import { deleteBook, toggleFavorite } from "../../redux/slices/bookSlice";
 import { BsBookmarkStarFill, BsBookmarkStar } from "react-icons/bs";
 
 import "./BookList.css";
@@ -8,16 +8,17 @@ import {
   selectAuthorFilter,
   selectOnlyFavoriteFilter,
 } from "../../redux/slices/filterSlice";
+import { selectBooks } from "../../redux/slices/bookSlice";
 
 const BookList = () => {
   const dispatch = useDispatch();
-  const books = useSelector((state) => state.books);
+  const books = useSelector(selectBooks);
   const titleFilter = useSelector(selectTitleFilter),
     authorFilter = useSelector(selectAuthorFilter),
     onlyFavoriteFilter = useSelector(selectOnlyFavoriteFilter);
 
   const handleChangeFavorite = (id) => {
-    return dispatch(chengeFavorite(id));
+    return dispatch(toggleFavorite(id));
   };
 
   const handleDeleteBook = (id) => {
