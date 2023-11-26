@@ -35,11 +35,11 @@ const bookSlice = createSlice({
       };
     },
     toggleFavorite: (state, action) => {
-      return state.books.map((book) =>
-        book.id === action.payload
-          ? { ...book, isFavorite: !book.isFavorite }
-          : book
-      );
+      state.books.forEach((book) => {
+        if (book.id === action.payload) {
+          book.isFavorite = !book.isFavorite;
+        }
+      });
     },
   },
   extraReducers: {
