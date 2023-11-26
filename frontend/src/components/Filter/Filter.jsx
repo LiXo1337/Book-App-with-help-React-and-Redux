@@ -1,4 +1,4 @@
-import "./Filter.css";
+import { useDispatch, useSelector } from "react-redux";
 import {
   setTitleFilter,
   setAuthorFilter,
@@ -8,7 +8,7 @@ import {
   selectAuthorFilter,
   selectOnlyFavoriteFilter,
 } from "../../redux/slices/filterSlice";
-import { useDispatch, useSelector } from "react-redux";
+import "./Filter.css";
 
 const Filter = () => {
   const dispatch = useDispatch();

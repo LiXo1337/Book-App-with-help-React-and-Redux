@@ -1,11 +1,11 @@
-import { ToastContainer, toast } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
   clearError,
   selectorErrorMassege,
 } from "../../redux/slices/errorSlice";
-import { useEffect } from "react";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Error = () => {
   const errorMassege = useSelector(selectorErrorMassege);

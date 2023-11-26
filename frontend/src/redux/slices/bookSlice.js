@@ -1,9 +1,12 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
 import { createBookWithId } from "../../utils/createBookWithId";
 import { setError } from "./errorSlice";
+import axios from "axios";
 
-const initialState = [];
+const initialState = {
+  books: [],
+  isLoading: false,
+};
 
 export const fetchBook = createAsyncThunk(
   "books/fetchBook",
@@ -13,7 +16,7 @@ export const fetchBook = createAsyncThunk(
       return res.data;
     } catch (error) {
       thunkAPI.dispatch(setError(error.message));
-      throw error;
+      return thunkAPI.rejectWithValue(error);
     }
   }
 );
@@ -23,30 +26,43 @@ const bookSlice = createSlice({
   initialState,
   reducers: {
     addBook: (state, action) => {
-      return [...state, action.payload];
+      state.books.push(action.payload);
     },
     deleteBook: (state, action) => {
-      return state.filter((book) => book.id !== action.payload);
+      return {
+        ...state,
+        books: state.books.filter((book) => book.id !== action.payload),
+      };
     },
     toggleFavorite: (state, action) => {
-      return state.map((book) =>
+      return state.books.map((book) =>
         book.id === action.payload
           ? { ...book, isFavorite: !book.isFavorite }
           : book
       );
     },
   },
-  extraReducers: (builder) => {
-    builder.addCase(fetchBook.fulfilled, (state, action) => {
+  extraReducers: {
+    [fetchBook.pending]: (state) => {
+      state.isLoading = true;
+    },
+
+    [fetchBook.fulfilled]: (state, action) => {
+      state.isLoading = false;
       if (action.payload.title && action.payload.author) {
-        state.push(createBookWithId(action.payload, "API"));
+        state.books.push(createBookWithId(action.payload, "API"));
       }
-    });
+    },
+
+    [fetchBook.rejected]: (state) => {
+      state.isLoading = false;
+    },
   },
 });
 
 export const { addBook, deleteBook, toggleFavorite } = bookSlice.actions;
 
-export const selectBooks = (state) => state.books;
+export const selectBooks = (state) => state.books.books,
+  selectIsLoading = (state) => state.books.isLoading;
 
 export default bookSlice.reducer;

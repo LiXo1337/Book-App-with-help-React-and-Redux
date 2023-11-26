@@ -13,6 +13,7 @@ import { selectBooks } from "../../redux/slices/bookSlice";
 const BookList = () => {
   const dispatch = useDispatch();
   const books = useSelector(selectBooks);
+  console.log(books);
   const titleFilter = useSelector(selectTitleFilter),
     authorFilter = useSelector(selectAuthorFilter),
     onlyFavoriteFilter = useSelector(selectOnlyFavoriteFilter);
